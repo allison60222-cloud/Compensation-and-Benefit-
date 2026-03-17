@@ -3,114 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HR C&B 專業薪酬工具箱</title>
+    <title>2026 企業薪酬與福利查詢系統 | Allison HR Tech</title>
     <style>
         :root {
-            --primary-color: #1a3a5f;
-            --secondary-color: #f4f7f9;
-            --accent-color: #e67e22;
+            --primary: #1a3a5f;
+            --secondary: #2c5282;
+            --accent: #ed8936;
+            --bg: #f7fafc;
+            --white: #ffffff;
+            --success: #48bb78;
         }
-        body {
-            font-family: "Microsoft JhengHei", sans-serif;
-            background-color: var(--secondary-color);
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        h1 { color: var(--primary-color); text-align: center; border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; }
-        .section { margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
-        h2 { color: var(--accent-color); font-size: 1.2em; }
-        label { display: block; margin: 10px 0 5px; font-weight: bold; }
-        input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        button:hover { opacity: 0.9; }
-        .result { margin-top: 15px; padding: 15px; background: #eef9ff; border-left: 5px solid var(--primary-color); display: none; }
-        .footer { text-align: center; font-size: 0.8em; color: #777; margin-top: 20px; }
+        body { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; background: var(--bg); margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        nav { background: var(--primary); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .container { flex: 1; max-width: 1000px; margin: 2rem auto; padding: 0 1rem; width: 100%; box-sizing: border-box; }
+        
+        /* 首頁分流 */
+        .home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+        .card { background: var(--white); padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; cursor: pointer; transition: 0.3s; border: 2px solid transparent; }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .card h2 { color: var(--primary); margin-top: 0; }
+        
+        /* 功能區間 */
+        .section { display: none; background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 2rem; }
+        .active { display: block; }
+        
+        /* 薪資組成表格 */
+        table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; }
+        th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: center; }
+        th { background: #edf2f7; color: var(--primary); }
+        .highlight { background: #fffaf0; border: 2px solid var(--accent) !important; font-weight: bold; }
+        
+        /* 表單樣式 */
+        .input-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: bold; color: #4a5568; }
+        input { width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 6px; box-sizing: border-box; }
+        .btn { background: var(--secondary); color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; width: 100%; }
+        .btn:hover { background: var(--primary); }
+        
+        .result-box { background: #f0fff4; border-left: 5px solid var(--success); padding: 1.5rem; margin-top: 1.5rem; display: none; }
+        .back-btn { background: none; border: 1px solid #ccc; padding: 5px 15px; cursor: pointer; border-radius: 4px; margin-bottom: 1rem; }
+        
+        footer { text-align: center; padding: 2rem; color: #718096; font-size: 0.85rem; }
     </style>
 </head>
 <body>
 
+<nav>
+    <div style="font-size: 1.5rem; font-weight: bold;">Allison C&B Portal 2026</div>
+    <div>2026 勞基法標準版</div>
+</nav>
+
 <div class="container">
-    <h1>HR C&B 薪酬試算工具箱</h1>
-    <p style="text-align: center; color: #666;">提供給公司同仁的快速薪資福利查詢平台</p>
-
-    <div class="section">
-        <h2>1. 加班費自動試算 (勞基法標準)</h2>
-        <label>月薪 (本薪+固定津貼)</label>
-        <input type="number" id="monthlySalary" placeholder="例如: 36000">
-        
-        <label>平日加班時數 (前2小時)</label>
-        <input type="number" id="ot1" placeholder="小時">
-        
-        <label>平日加班時數 (第3小時起)</label>
-        <input type="number" id="ot2" placeholder="小時">
-        
-        <button onclick="calculateOT()">開始計算加班費</button>
-        
-        <div id="otResult" class="result">
-            <strong>計算結果：</strong><br>
-            平日時薪：$<span id="hourlyRate">0</span><br>
-            預估總加班費：<span id="totalOT" style="color:red; font-size: 1.2em; font-weight: bold;">$0</span>
+    <div id="homePage" class="active">
+        <h1 style="text-align:center; color: var(--primary);">歡迎使用薪酬查詢系統</h1>
+        <div class="home-grid">
+            <div class="card" onclick="showSection('employeePortal')">
+                <h2>員工查詢入口</h2>
+                <p>查詢薪資細項、勞健保級距、加班費及假別天數</p>
+            </div>
+            <div class="card" style="opacity: 0.6; cursor: not-allowed;">
+                <h2>HR 管理入口</h2>
+                <p>(系統開發中 - 權限鎖定中)</p>
+            </div>
         </div>
     </div>
 
-    <div class="section">
-        <h2>2. 勞健保自付額快速查詢</h2>
-        <p style="font-size: 0.9em; color: #666;">*依據 2024/2025 最新級距參考</p>
-        <label>請輸入投保薪資分級</label>
-        <input type="number" id="insSalary" placeholder="例如: 36300">
-        <button onclick="calculateIns()">查詢自付額</button>
-        
-        <div id="insResult" class="result">
-            <strong>預估個人負擔：</strong><br>
-            勞保費 (普通+就保)：$<span id="labourIns">0</span><br>
-            健保費：$<span id="healthIns">0</span><br>
-            <small>*實際金額仍以公司薪資單為準</small>
+    <div id="employeePortal" class="section">
+        <button class="back-btn" onclick="showSection('homePage')">← 返回首頁</button>
+        <h2>員工資料查詢</h2>
+        <div class="input-group">
+            <label>請輸入員工編號 (測試用: A001, A002, A003)</label>
+            <input type="text" id="empId" placeholder="例如: A001">
         </div>
-    </div>
+        <button class="btn" onclick="queryEmployee()">確認查詢</button>
 
-    <div class="footer">
-        本工具由 Allison Wang 開發製作 | 應徵 C&B 專員作品展示
+        <div id="employeeDataResult" style="display:none; margin-top: 2rem;">
+            <h3>薪資組成明細</h3>
+            <div id="payStub"></div>
+
+            <h3>2026 勞健保投保分級對照 (您的級距已標記)</h3>
+            <p style="font-size: 0.8em; color: #666;">*註：2026 勞保費率 12.5% (含就保)，健保費率 5.17%</p>
+            <div id="insTableArea"></div>
+
+            <h3>加班費試算機 (依本週時數)</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <input type="number" id="w1" placeholder="週一加班時數">
+                <input type="number" id="w2" placeholder="週二">
+                <input type="number" id="w3" placeholder="週三">
+                <input type="number" id="w4" placeholder="週四">
+                <input type="number" id="w5" placeholder="週五">
+                <input type="number" id="w6" placeholder="週六(休息日)">
+            </div>
+            <button class="btn" style="margin-top:10px;" onclick="calculateOT()">計算本週加班費</button>
+            <div id="otResult" class="result-box"></div>
+
+            <h3>假別天數查詢</h3>
+            <div id="leaveArea"></div>
+        </div>
     </div>
 </div>
 
+<footer>
+    本網站僅供作品集展示 | 數據參考 2026(115)年政府公告標準 | 開發者: Allison Wang
+</footer>
+
 <script>
-    function calculateOT() {
-        const salary = parseFloat(document.getElementById('monthlySalary').value);
-        const ot1 = parseFloat(document.getElementById('ot1').value) || 0;
-        const ot2 = parseFloat(document.getElementById('ot2').value) || 0;
+    // 2026 模擬數據
+    const employees = {
+        "A001": { name: "王小明", base: 42000, meal: 3000, dept: "技術部", dependants: 0, leave: { annual: 7, sick: 3, fullAttendance: "是" } },
+        "A002": { name: "李小華", base: 32000, meal: 3000, dept: "行政部", dependants: 2, leave: { annual: 3, sick: 1, fullAttendance: "是" } },
+        "A003": { name: "張大衛", base: 60000, meal: 3000, dept: "業務部", dependants: 1, leave: { annual: 14, sick: 5, fullAttendance: "否" } }
+    };
 
-        if(!salary) { alert("請輸入月薪"); return; }
+    // 2026 級距表數據 (簡化示意)
+    const insBrackets = [29500, 31800, 33300, 34800, 36300, 38200, 40100, 42000, 43900, 45800, 48200, 50600];
 
-        // 勞基法：平日時薪 = 月薪 / 240
-        const hourly = (salary / 240).toFixed(2);
-        // 前2小時 1.34倍，第3小時起 1.67倍
-        const otPay = (ot1 * hourly * 1.34) + (ot2 * hourly * 1.67);
-
-        document.getElementById('hourlyRate').innerText = hourly;
-        document.getElementById('totalOT').innerText = '$' + Math.round(otPay);
-        document.getElementById('otResult').style.display = 'block';
+    function showSection(id) {
+        document.querySelectorAll('.section, #homePage').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
     }
 
-    function calculateIns() {
-        const insSalary = parseFloat(document.getElementById('insSalary').value);
-        if(!insSalary) { alert("請輸入投保薪資"); return; }
+    let currentEmp = null;
 
-        // 簡易邏輯：勞保 2.4% (個人), 健保 1.55% (個人) -> 僅為教學示意，實際需對應級距表
-        const lab = Math.round(insSalary * 0.12 * 0.2); // 勞保費率12%, 個人負擔20%
-        const hea = Math.round(insSalary * 0.0517 * 0.3); // 健保費率5.17%, 個人負擔30%
+    function queryEmployee() {
+        const id = document.getElementById('empId').value.toUpperCase();
+        if(!employees[id]) { alert("找不到該員工編號！"); return; }
+        
+        currentEmp = employees[id];
+        const totalPay = currentEmp.base + currentEmp.meal;
+        
+        // 1. 薪資明細
+        document.getElementById('payStub').innerHTML = `
+            <table>
+                <tr><th>姓名</th><td>${currentEmp.name}</td><th>部門</th><td>${currentEmp.dept}</td></tr>
+                <tr><th>基本薪資</th><td>$${currentEmp.base.toLocaleString()}</td><th>伙食津貼</th><td>$${currentEmp.meal.toLocaleString()}</td></tr>
+                <tr><th>應領總額</th><td colspan="3" style="font-size:1.2em; color:var(--primary); font-weight:bold;">$${totalPay.toLocaleString()}</td></tr>
+            </table>
+        `;
 
-        document.getElementById('labourIns').innerText = lab;
-        document.getElementById('healthIns').innerText = hea;
-        document.getElementById('insResult').style.display = 'block';
+        // 2. 勞健保表格
+        renderInsTable(totalPay, currentEmp.dependants);
+
+        // 3. 假別
+        document.getElementById('leaveArea').innerHTML = `
+            <table>
+                <tr><th>假別</th><th>剩餘天數</th><th>是否扣全勤</th></tr>
+                <tr><td>特別休假</td><td>${currentEmp.leave.annual} 天</td><td>不扣</td></tr>
+                <tr><td>普通傷病假</td><td>${currentEmp.leave.sick} 天</td><td>不扣 (半薪)</td></tr>
+                <tr><td>目前全勤狀態</td><td colspan="2">${currentEmp.leave.fullAttendance}</td></tr>
+            </table>
+        `;
+
+        document.getElementById('employeeDataResult').style.display = 'block';
+    }
+
+    function renderInsTable(salary, deps) {
+        // 找到對應級距
+        let bracket = insBrackets.find(b => b >= salary) || insBrackets[insBrackets.length - 1];
+        let h_bracket = insBrackets.find(b => b >= salary) || 50600; // 簡化處理
+
+        // 計算費用
+        const labFee = Math.round(bracket * 0.125 * 0.2); // 勞保個人 20%
+        const heaFee = Math.round(h_bracket * 0.0517 * 0.3 * (1 + Math.min(deps, 3))); // 健保個人 30%, 眷屬上限3
+
+        let html = `<table><tr><th>項目</th><th>投保金額</th><th>個人負擔</th><th>備註</th></tr>`;
+        html += `<tr class="highlight"><td>勞保</td><td>$${bracket.toLocaleString()}</td><td>$${labFee}</td><td>費率 12.5%</td></tr>`;
+        html += `<tr class="highlight"><td>健保</td><td>$${h_bracket.toLocaleString()}</td><td>$${heaFee}</td><td>眷屬: ${deps} 口</td></tr>`;
+        html += `</table>`;
+        document.getElementById('insTableArea').innerHTML = html;
+    }
+
+    function calculateOT() {
+        const hourly = (currentEmp.base / 240);
+        let totalOTPay = 0;
+        
+        // 遍歷週一到週六
+        for(let i=1; i<=6; i++) {
+            let hours = parseFloat(document.getElementById('w' + i).value) || 0;
+            if(hours > 0) {
+                if(hours <= 2) {
+                    totalOTPay += hours * hourly * 1.34;
+                } else {
+                    totalOTPay += (2 * hourly * 1.34) + ((hours - 2) * hourly * 1.67);
+                }
+            }
+        }
+
+        const box = document.getElementById('otResult');
+        box.innerHTML = `<strong>本週預估加班費：</strong> $${Math.round(totalOTPay).toLocaleString()}<br><small>(平日及休息日前2小時 1.34x，之後 1.67x)</small>`;
+        box.style.display = 'block';
     }
 </script>
 
