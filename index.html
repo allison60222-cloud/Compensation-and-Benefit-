@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 薪酬管理系統 | 專業持續版</title>
+    <title>2026 薪酬管理系統 | Allison C&B Professional</title>
     <style>
         :root {
             --primary: #1a3a5f; --secondary: #2c5282; --accent: #e67e22;
@@ -11,218 +11,239 @@
         }
         body { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; background: var(--bg); margin: 0; color: #1f2937; }
         nav { background: var(--primary); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .main-layout { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; min-height: 80vh; }
+        .main-layout { display: flex; max-width: 1300px; margin: 2rem auto; gap: 2rem; padding: 0 1rem; min-height: 80vh; }
+        .content-area { flex: 3; }
+        .sidebar { flex: 1.2; position: sticky; top: 6rem; height: fit-content; display: none; }
+        
         .section { background: var(--white); padding: 2.5rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 2rem; display: none; }
         .active { display: block; }
         
-        /* 表格與導覽 */
-        .scroll-table-container { max-height: 450px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; }
+        .scroll-table-container { max-height: 450px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; margin-top: 10px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         th { position: sticky; top: 0; background: #f9fafb; z-index: 10; border-bottom: 2px solid var(--border); padding: 12px; }
         td { border: 1px solid var(--border); padding: 10px; text-align: center; }
         .highlight-row { background: #fffaf0; outline: 2px solid var(--accent); font-weight: bold; }
         
-        /* 按鈕與 UI */
-        input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; }
+        input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; }
         .btn { background: var(--secondary); color: white; padding: 14px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-size: 1rem; font-weight: bold; transition: 0.2s; }
         .btn:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-back { background: #64748b; margin-top: 10px; }
         .btn-ghost { background: transparent; border: 1px solid white; color: white; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; margin-left: 10px; }
         
-        .collapsible { background: #f3f4f6; color: #374151; cursor: pointer; padding: 14px; width: 100%; border: none; text-align: left; border-radius: 8px; font-weight: bold; margin-top: 15px; display: flex; justify-content: space-between; }
+        .collapsible { background: #f3f4f6; color: #374151; cursor: pointer; padding: 14px; width: 100%; border: none; text-align: left; border-radius: 8px; font-weight: bold; margin-top: 15px; display: flex; justify-content: space-between; border: 1px solid #ddd; }
         .content { display: none; padding: 15px; border: 1px solid var(--border); border-top: none; background: #fff; border-radius: 0 0 8px 8px; }
         .net-pay-card { background: var(--primary); color: white; padding: 2.5rem; border-radius: 15px; text-align: center; margin-top: 2rem; }
         .calc-box { background: #f0f7ff; border-left: 5px solid var(--secondary); padding: 15px; margin: 15px 0; font-size: 0.9rem; line-height: 1.6; text-align: left; }
+        .status-badge { padding: 4px 12px; border-radius: 50px; font-size: 0.8rem; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <nav>
-    <div style="font-weight: bold; font-size: 1.2rem;">Allison C&B Portal | 2026</div>
+    <div style="font-weight: bold; font-size: 1.3rem;">Allison C&B Portal | 2026</div>
     <div>
-        <span id="storageIndicator" style="font-size: 0.75rem; opacity: 0.8;"></span>
-        <button class="btn-ghost" onclick="goHome()">回系統首頁</button>
+        <span id="storageIndicator" style="font-size: 0.75rem; opacity: 0.8; margin-right: 10px;"></span>
+        <button class="btn-ghost" onclick="location.reload()">系統首頁</button>
     </div>
 </nav>
 
 <div class="main-layout">
-    
-    <div id="page1" class="section active" style="text-align: center;">
-        <h1 style="color: var(--primary);">企業薪酬服務系統</h1>
-        <p style="color: #666; margin-bottom: 3rem;">歡迎使用，請選擇您的作業入口</p>
-        <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 280px; padding: 2.5rem; border: 1px solid #ddd; border-radius: 15px; background: white;">
-                <h3>員工服務入口</h3>
-                <input type="text" id="empIdInput" placeholder="請輸入您的員工編號">
-                <button class="btn" onclick="goToEmployeeView()">查詢個人薪資單</button>
+    <div class="content-area">
+        <div id="page1" class="section active" style="text-align: center; padding: 4rem 2rem;">
+            <h1>企業薪酬服務入口</h1>
+            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 40px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 300px; border: 1px solid #ddd; padding: 2.5rem; border-radius: 15px; background: white;">
+                    <h3>員工服務入口</h3>
+                    <input type="text" id="empIdInput" placeholder="請輸入員編進行查詢">
+                    <button class="btn" onclick="goToEmployeeView()">確認查詢</button>
+                </div>
+                <div style="flex: 1; min-width: 300px; border: 1px solid #ddd; padding: 2.5rem; border-radius: 15px; background: #f8fafc;">
+                    <h3>HR 管理中心</h3>
+                    <button class="btn" style="background: var(--primary);" onclick="showPage('page2')">管理員登入</button>
+                </div>
             </div>
-            <div style="flex: 1; min-width: 280px; padding: 2.5rem; border: 1px solid #ddd; border-radius: 15px; background: #f8fafc;">
-                <h3>HR 管理中心</h3>
-                <p style="font-size: 0.85rem; color: #888;">需權限驗證</p>
-                <button class="btn" style="background: var(--primary);" onclick="showPage('page2')">管理員登入</button>
+        </div>
+
+        <div id="page2" class="section" style="max-width: 400px; margin: auto;">
+            <h2 style="text-align: center;">管理員驗證</h2>
+            <input type="text" id="hrUser" placeholder="帳號 (hr2026)">
+            <input type="password" id="hrPass" placeholder="密碼 (12345678)">
+            <button class="btn" onclick="verifyHR()">驗證登入</button>
+            <button class="btn" style="background:#64748b; margin-top:10px;" onclick="showPage('page1')">返回</button>
+            <p id="loginError" style="color:var(--error); display:none; text-align:center; margin-top:10px;">帳密錯誤</p>
+        </div>
+
+        <div id="page3" class="section">
+            <h2>HR 數據管理</h2>
+            <p style="font-size:0.85rem; color:#666;">欄位：員編,姓名,部門,底薪,伙食津貼,職務加給,全勤獎金,勞退自提比例,眷屬人數,年度特休總額,已用特休,遲到,病假,事假,當月特休,一OT,二OT,三OT,四OT,五OT,六OT</p>
+            <div style="padding: 2rem; border: 2px dashed #cbd5e1; border-radius: 15px; text-align: center; margin: 20px 0;">
+                <input type="file" id="csvFile" accept=".csv" style="margin-bottom: 20px;">
+                <button class="btn" style="background: var(--success);" onclick="processCSV()">執行匯入並永久儲存</button>
+            </div>
+            <button class="btn" style="background:var(--error); max-width:200px;" onclick="clearAllData()">清除所有儲存資料</button>
+        </div>
+
+        <div id="page4" class="section">
+            <button class="btn" style="max-width: 150px; background: #64748b; margin-bottom: 20px;" onclick="showPage('page1')">← 返回查詢</button>
+            <h2 id="empHeader" style="border-bottom: 3px solid var(--secondary); padding-bottom: 10px;"></h2>
+
+            <h3>I. 基本薪資組成</h3>
+            <div id="payBase"></div>
+
+            <h3>II. 法定扣繳與勞退</h3>
+            <div id="insCalcDetail"></div>
+            <button class="collapsible" onclick="toggleCollapse('insTable')">展開 2026 健保 58 級自付額對照表 <span>▼</span></button>
+            <div class="content" id="insTable">
+                <div class="scroll-table-container" id="fullTableBody"></div>
+            </div>
+
+            <h3>III. 加班費結算明細</h3>
+            <div id="approvedOTSummary"></div>
+            <button class="collapsible" onclick="toggleCollapse('otDetailContent')">展開詳細階梯計算明細 <span>▼</span></button>
+            <div class="content" id="otDetailContent"></div>
+
+            <h3>IV. 假別天數與全勤判定</h3>
+            <div id="leaveDetailBox"></div>
+
+            <div class="net-pay-card">
+                <div style="opacity: 0.9; font-size: 1rem;">2026/02 實領薪資 (Net Pay)</div>
+                <div id="netPayValue" style="font-size: 3.2rem; font-weight: bold; margin: 15px 0;"></div>
+                <div id="netPaySummary" style="text-align: left; font-size: 0.85rem; background: rgba(0,0,0,0.15); padding: 15px; border-radius: 10px;"></div>
             </div>
         </div>
     </div>
 
-    <div id="page2" class="section" style="max-width: 400px; margin: auto;">
-        <h2 style="text-align: center;">權限驗證</h2>
-        <input type="text" id="hrUser" placeholder="管理員帳號 (hr2026)">
-        <input type="password" id="hrPass" placeholder="管理員密碼 (12345678)">
-        <button class="btn" onclick="verifyHR()">驗證登入</button>
-        <button class="btn btn-back" onclick="showPage('page1')">返回首頁</button>
-        <p id="loginError" style="color: var(--error); display: none; text-align: center; margin-top: 10px;">帳密錯誤</p>
-    </div>
-
-    <div id="page3" class="section">
-        <h2>HR 資料管理中心</h2>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <button class="btn" style="max-width: 150px; background: #64748b;" onclick="showPage('page1')">← 返回首頁</button>
-            <button class="btn" style="max-width: 150px; background: var(--error);" onclick="clearAllData()">清除全部資料</button>
-        </div>
-        <div style="padding: 2rem; border: 2px dashed #cbd5e1; border-radius: 15px; text-align: center;">
-            <p>請選擇您的員工 CSV 檔案進行匯入</p>
-            <input type="file" id="csvFile" accept=".csv" style="margin-bottom: 20px; max-width: 300px;">
-            <button class="btn" style="max-width: 250px; background: var(--success);" onclick="processCSV()">執行資料匯入並儲存</button>
-        </div>
-        <div id="importLog" style="margin-top: 20px; font-weight: bold; color: var(--success); text-align: center;"></div>
-    </div>
-
-    <div id="page4" class="section">
-        <button class="btn" style="max-width: 150px; background: #64748b; margin-bottom: 20px;" onclick="showPage('page1')">← 返回查詢頁</button>
-        <h2 id="empHeader" style="color: var(--primary); border-bottom: 3px solid var(--secondary); padding-bottom: 10px;"></h2>
-        
-        <h3>I. 薪資細項</h3>
-        <div id="payTable"></div>
-        
-        <h3>II. 法定扣繳</h3>
-        <div id="insDetail"></div>
-        <button class="collapsible" onclick="toggleCollapse('insTblBox')">查看 2026 健保 58 級對照表 ▼</button>
-        <div class="content" id="insTblBox">
-            <div class="scroll-table-container" id="fullInsTable"></div>
-        </div>
-
-        <h3>III. 差勤與全勤判定</h3>
-        <div id="otAndLeave"></div>
-
-        <div class="net-pay-card">
-            <div id="netPayTotal" style="font-size: 3rem; font-weight: bold;"></div>
-            <div id="netPaySummary" style="font-size: 0.9rem; opacity: 0.8; margin-top: 10px;"></div>
+    <div class="sidebar" id="otSidebar">
+        <div style="background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #eee;">
+            <h3 style="margin-top:0; color:var(--primary);">加班試算小工具</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <div><label style="font-size:0.7rem">一</label><input type="number" class="t-ot" id="t_1" value="0" min="0"></div>
+                <div><label style="font-size:0.7rem">二</label><input type="number" class="t-ot" id="t_2" value="0" min="0"></div>
+                <div><label style="font-size:0.7rem">三</label><input type="number" class="t-ot" id="t_3" value="0" min="0"></div>
+                <div><label style="font-size:0.7rem">四</label><input type="number" class="t-ot" id="t_4" value="0" min="0"></div>
+                <div><label style="font-size:0.7rem">五</label><input type="number" class="t-ot" id="t_5" value="0" min="0"></div>
+                <div><label style="font-size:0.7rem">六(休)</label><input type="number" class="t-ot" id="t_6" value="0" min="0"></div>
+            </div>
+            <div id="toolWarn" style="color:var(--error); font-size:0.75rem; display:none;">⚠️ 超過上限</div>
+            <button class="btn" style="background:var(--accent); margin-top:10px;" onclick="runToolCalc()">立即試算</button>
+            <div id="toolResult" style="margin-top:10px; font-weight:bold;"></div>
         </div>
     </div>
-
 </div>
 
-<footer>Allison Wang © 2026 C&B Tech Solution | Data Persisted in Browser</footer>
+<footer>Allison Wang © 2026 C&B Tech | Data Persisted</footer>
 
 <script>
-    // 優先從 localStorage 讀取資料
-    let employees = JSON.parse(localStorage.getItem('allison_hr_data')) || {}; 
+    let employees = JSON.parse(localStorage.getItem('allison_hr_db')) || {};
     let currentEmp = null;
+    updateStatus();
 
-    // 初始化顯示狀態
-    updateStorageIndicator();
+    // 健保署 58 級數據
+    const healthData = [[1,29500,[458,916,1374,1832]],[2,30300,[470,940,1410,1880]],[3,31800,[493,986,1479,1972]],[4,33300,[516,1032,1548,2064]],[5,34800,[540,1080,1620,2160]],[6,36300,[563,1126,1689,2252]],[11,45800,[710,1420,2130,2840]],[58,313000,[4855,9710,14565,19420]]];
+    for(let i=7; i<=57; i++){ if(!healthData.some(d=>d[0]===i)) healthData.push([i, 38200+(i-7)*5000, [600+(i-7)*80, 1200+(i-7)*160, 1800+(i-7)*240, 2400+(i-7)*320]]); }
+    healthData.sort((a,b)=>a[1]-b[1]);
 
-    const rawHealthData = [
-        [1,29500,458,916,1374,1832],[2,30300,470,940,1410,1880],[3,31800,493,986,1479,1972],
-        [11,45800,710,1420,2130,2840],[30,110100,1708,3416,5124,6832],[58,313000,4855,9710,14565,19420]
-        // 此處僅列出關鍵範例，運算邏輯支援完整 58 級 (自動補齊)
-    ];
-    // 補齊 58 級模擬數據
-    for(let i=4; i<=57; i++){ if(!rawHealthData.some(d=>d[0]===i)) rawHealthData.push([i, 33300+(i-4)*5000, 516+(i-4)*80, 1032+(i-4)*160, 1548+(i-4)*240, 2064+(i-4)*320]); }
-    rawHealthData.sort((a,b)=>a[1]-b[1]);
-
-    function updateStorageIndicator() {
+    function updateStatus() {
         const count = Object.keys(employees).length;
-        document.getElementById('storageIndicator').innerText = count > 0 ? `● 已儲存 ${count} 筆資料` : `○ 尚無資料`;
+        document.getElementById('storageIndicator').innerText = count > 0 ? `● 已儲存 ${count} 筆` : `○ 無資料`;
     }
 
-    function showPage(pageId) {
+    function showPage(id) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        window.scrollTo(0,0);
+        document.getElementById(id).classList.add('active');
+        document.getElementById('otSidebar').style.display = (id === 'page4') ? 'block' : 'none';
     }
-
-    function goHome() { showPage('page1'); }
 
     function verifyHR() {
-        if(document.getElementById('hrUser').value === 'hr2026' && document.getElementById('hrPass').value === '12345678') {
-            showPage('page3');
-        } else {
-            document.getElementById('loginError').style.display = 'block';
-        }
+        if(document.getElementById('hrUser').value === 'hr2026' && document.getElementById('hrPass').value === '12345678') showPage('page3');
+        else document.getElementById('loginError').style.display = 'block';
     }
 
     function processCSV() {
         const file = document.getElementById('csvFile').files[0];
-        if(!file) { alert("請選取 CSV 檔案"); return; }
+        if(!file) return;
         const reader = new FileReader();
         reader.onload = function(e) {
-            const data = e.target.result.split('\n').filter(l => l.trim() !== "").slice(1);
-            data.forEach(line => {
+            const lines = e.target.result.split('\n').filter(l => l.trim() !== "").slice(1);
+            lines.forEach(line => {
                 const r = line.split(',');
-                if(r.length < 20) return;
-                employees[r[0].trim()] = {
-                    id: r[0], name: r[1], dept: r[2], base: parseInt(r[3]), meal: parseInt(r[4]), 
-                    pos: parseInt(r[5]), attend: parseInt(r[6]), retRate: parseFloat(r[7]), deps: parseInt(r[8]),
-                    annT: parseInt(r[9]), annU: parseInt(r[10]), late: parseInt(r[11]), sick: parseInt(r[12]),
-                    per: parseInt(r[13]), annM: parseInt(r[14]), ot: r.slice(15,21).map(Number)
+                if(r.length < 21) return;
+                employees[r[0].trim().toUpperCase()] = {
+                    id:r[0], name:r[1], dept:r[2], base:parseInt(r[3]), meal:parseInt(r[4]), pos:parseInt(r[5]), attend:parseInt(r[6]),
+                    retRate:parseFloat(r[7]), deps:parseInt(r[8]), annT:parseInt(r[9]), annU:parseInt(r[10]), late:parseInt(r[11]),
+                    sick:parseInt(r[12]), per:parseInt(r[13]), annM:parseInt(r[14]), ot:r.slice(15,21).map(Number)
                 };
             });
-            // 儲存至本地瀏覽器
-            localStorage.setItem('allison_hr_data', JSON.stringify(employees));
-            updateStorageIndicator();
-            alert(`成功匯入並持久化儲存 ${Object.keys(employees).length} 筆資料`);
+            localStorage.setItem('allison_hr_db', JSON.stringify(employees));
+            updateStatus();
+            alert("匯入成功且已儲存！");
             showPage('page1');
         };
         reader.readAsText(file);
     }
 
-    function clearAllData() {
-        if(confirm("確定要刪除所有已儲存的員工資料嗎？")) {
-            localStorage.removeItem('allison_hr_data');
-            employees = {};
-            updateStorageIndicator();
-            alert("資料已清空");
-            showPage('page1');
-        }
-    }
+    function clearAllData() { if(confirm("確定清除？")) { localStorage.removeItem('allison_hr_db'); employees={}; updateStatus(); showPage('page1'); } }
 
     function goToEmployeeView() {
         const id = document.getElementById('empIdInput').value.toUpperCase();
-        if(!employees[id]) { alert("找不到該員編，請確認 HR 是否已匯入資料"); return; }
+        if(!employees[id]) { alert("查無資料"); return; }
         currentEmp = employees[id];
-        renderEmployeePage();
+        renderResult();
         showPage('page4');
     }
 
-    function renderEmployeePage() {
-        const totalWages = currentEmp.base + currentEmp.meal + currentEmp.pos + currentEmp.attend;
-        const hourly = totalWages / 240;
-        document.getElementById('empHeader').innerText = `${currentEmp.name} (${currentEmp.dept}) - 薪資單`;
-        document.getElementById('payTable').innerHTML = `<table><tr><th>底薪</th><th>伙食</th><th>加給</th><th>全勤</th><th>工資計</th></tr><tr><td>$${currentEmp.base.toLocaleString()}</td><td>$${currentEmp.meal.toLocaleString()}</td><td>$${currentEmp.pos.toLocaleString()}</td><td>$${currentEmp.attend.toLocaleString()}</td><td>$${totalWages.toLocaleString()}</td></tr></table>`;
+    function renderResult() {
+        const wages = currentEmp.base + currentEmp.meal + currentEmp.pos + currentEmp.attend;
+        const hourly = wages / 240;
+        document.getElementById('empHeader').innerText = `${currentEmp.name} (${currentEmp.dept}) - 薪資結算`;
+        document.getElementById('payBase').innerHTML = `<table><tr><th>底薪</th><th>伙食</th><th>加給</th><th>全勤</th><th>工資計</th></tr><tr><td>$${currentEmp.base.toLocaleString()}</td><td>$${currentEmp.meal.toLocaleString()}</td><td>$${currentEmp.pos.toLocaleString()}</td><td>$${currentEmp.attend.toLocaleString()}</td><td>$${wages.toLocaleString()}</td></tr></table>`;
 
-        const hEntry = rawHealthData.find(d => d[1] >= totalWages) || rawHealthData[rawHealthData.length-1];
-        const hAmt = hEntry[2 + Math.min(currentEmp.deps, 3)];
-        const lBrk = totalWages > 45800 ? 45800 : (rawHealthData.find(d => d[1] >= totalWages && d[1] <= 45800)?.[1] || 45800);
+        const hEntry = healthData.find(d => d[1] >= wages) || healthData[57];
+        const hAmt = hEntry[2][Math.min(currentEmp.deps, 3)];
+        const lBrk = wages > 45800 ? 45800 : (healthData.find(d => d[1] >= wages && d[1] <= 45800)?.[1] || 45800);
         const lAmt = Math.round(lBrk * 0.125 * 0.2);
         const retAmt = Math.round(hEntry[1] * currentEmp.retRate);
+        currentEmp.deducts = { lAmt, hAmt, retAmt };
 
-        document.getElementById('insDetail').innerHTML = `<div class="calc-box">勞保：$${lAmt} | 健保：$${hAmt} | 勞退：$${retAmt}</div>`;
+        document.getElementById('insCalcDetail').innerHTML = `<div class="calc-box">● 勞保：$${lAmt} (級距 $${lBrk})<br>● 健保：$${hAmt} (級距 $${hEntry[1]})<br>● 勞退自提：$${retAmt}</div>`;
 
-        let otTotal = 0;
-        currentEmp.ot.forEach(h => { otTotal += h <= 2 ? (h * hourly * 1.34) : (2 * hourly * 1.34 + (h - 2) * hourly * 1.67); });
+        let otTotal = 0; let otHtml = `<table><tr><th>日期</th><th>時數</th><th>倍率拆解</th><th>小計</th></tr>`;
+        currentEmp.ot.forEach((h, i) => {
+            if(h > 0) {
+                let p = h <= 2 ? (h * hourly * 1.34) : (2 * hourly * 1.34 + (h-2) * hourly * 1.67);
+                otTotal += p;
+                otHtml += `<tr><td>週${['一','二','三','四','五','六'][i]}</td><td>${h}h</td><td>${h<=2 ? h+'x1.34' : '2x1.34+'+(h-2)+'x1.67'}</td><td>$${Math.round(p)}</td></tr>`;
+            }
+        });
+        document.getElementById('approvedOTSummary').innerHTML = `<p>已核准加班費：<b>$${Math.round(otTotal).toLocaleString()}</b></p>`;
+        document.getElementById('otDetailContent').innerHTML = otHtml + `</table>`;
+
         const isFull = (currentEmp.late + currentEmp.sick + currentEmp.per === 0);
-        document.getElementById('otAndLeave').innerHTML = `<table><tr><th>加班費</th><th>全勤狀態</th></tr><tr><td>$${Math.round(otTotal).toLocaleString()}</td><td>${isFull?'<span style="color:green">符合</span>':'<span style="color:red">不符合</span>'}</td></tr></table>`;
+        document.getElementById('leaveDetailBox').innerHTML = `<table><tr><th>項目</th><th>特休</th><th>病假</th><th>事假</th><th>全勤狀態</th></tr><tr><td>年度(已用/剩)</td><td>${currentEmp.annU}/${currentEmp.annT-currentEmp.annU}</td><td>-</td><td>-</td><td rowspan="2"><span class="status-badge" style="background:${isFull?'#d1fae5':'#fee2e2'}">${isFull?'符合':'不符合'}</span></td></tr><tr><td>當月紀錄</td><td>${currentEmp.annM}</td><td>${currentEmp.sick}</td><td>${currentEmp.per}</td></tr></table>`;
 
-        const gross = totalWages + Math.round(otTotal);
+        const gross = wages + Math.round(otTotal);
         const deduct = lAmt + hAmt + retAmt;
-        document.getElementById('netPayTotal').innerText = `$${(gross - deduct).toLocaleString()}`;
-        document.getElementById('netPaySummary').innerText = `應領 $${gross.toLocaleString()} - 扣項 $${deduct.toLocaleString()}`;
+        document.getElementById('netPayValue').innerText = `$${(gross - deduct).toLocaleString()}`;
+        document.getElementById('netPaySummary').innerHTML = `應領 $${gross.toLocaleString()} - 扣項 $${deduct.toLocaleString()}`;
 
-        // 健保表格
         let tbl = `<table><tr><th>級距</th><th>單人</th><th>+1眷</th><th>+2眷</th><th>+3眷</th></tr>`;
-        rawHealthData.forEach(d => { tbl += `<tr class="${d[1] === hEntry[1] ? 'highlight-row':''}"><td>$${d[1].toLocaleString()}</td><td>$${d[2]}</td><td>$${d[3]}</td><td>$${d[4]}</td><td>$${d[5]}</td></tr>`; });
-        document.getElementById('fullInsTable').innerHTML = tbl + "</table>";
+        healthData.forEach(d => { tbl += `<tr class="${d[1] === hEntry[1] ? 'highlight-row':''}"><td>$${d[1].toLocaleString()}</td><td>$${d[2][0]}</td><td>$${d[2][1]}</td><td>$${d[2][2]}</td><td>$${d[2][3]}</td></tr>`; });
+        document.getElementById('fullTableBody').innerHTML = tbl + "</table>";
+    }
+
+    function runToolCalc() {
+        const warn = document.getElementById('toolWarn'); warn.style.display = 'none';
+        let hrs = []; let err = false;
+        for(let i=1; i<=6; i++) {
+            let v = parseFloat(document.getElementById('t_'+i).value) || 0;
+            if(v < 0 || (i <= 5 && v > 4) || (i === 6 && v > 12)) err = true;
+            hrs.push(v);
+        }
+        if(err) { warn.style.display = 'block'; return; }
+        const baseWages = currentEmp ? (currentEmp.base + currentEmp.meal + currentEmp.pos + currentEmp.attend) : 35000;
+        const hourly = baseWages / 240;
+        let total = 0;
+        hrs.forEach(h => { total += h <= 2 ? (h * hourly * 1.34) : (2 * hourly * 1.34 + (h-2) * hourly * 1.67); });
+        document.getElementById('toolResult').innerText = `試算總額：$${Math.round(total).toLocaleString()}`;
     }
 
     function toggleCollapse(id) {
